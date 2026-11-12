@@ -9,7 +9,7 @@ try {
 
 const OLLAMA_ENDPOINT = 'http://localhost:11434/api/generate'
 const OLLAMA_MODEL = 'llama3.1'
-const OLLAMA_TIMEOUT_MS = 4500
+const OLLAMA_TIMEOUT_MS = 10000
 const FALLBACK_DELAY_MS = 2500
 
 export interface ExtractedStudentData {

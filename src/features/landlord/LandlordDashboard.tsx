@@ -26,6 +26,7 @@ export function LandlordDashboard() {
     setLandlordTab,
     landlordMatches,
     landlordListings,
+    isLandlordVerified,
     landlordVerification,
     setLandlordVerification,
     toggleApproveMatch,
@@ -43,18 +44,19 @@ export function LandlordDashboard() {
 
   // Landlord Ownership Verification State
   const [verifyPhase, setVerifyPhase] = useState<'idle' | 'processing' | 'done'>(
-    landlordVerification ? 'done' : 'idle'
+    isLandlordVerified ? 'done' : 'idle'
   )
   const [kadasterFile, setKadasterFile] = useState<string>(
-    landlordVerification ? LANDLORD_KADASTER_SAMPLE.kadasterFileName : ''
+    isLandlordVerified ? LANDLORD_KADASTER_SAMPLE.kadasterFileName : ''
   )
   const [permitFile, setPermitFile] = useState<string>(
-    landlordVerification ? LANDLORD_KADASTER_SAMPLE.permitFileName : ''
+    isLandlordVerified ? LANDLORD_KADASTER_SAMPLE.permitFileName : ''
   )
   const [customRawText, setCustomRawText] = useState<string>('')
 
   const kadasterInputRef = useRef<HTMLInputElement | null>(null)
   const permitInputRef = useRef<HTMLInputElement | null>(null)
+  const ownershipSectionRef = useRef<HTMLDivElement | null>(null)
 
   // Create Listing Modal Form State
   const [title, setTitle] = useState('')
@@ -70,12 +72,12 @@ export function LandlordDashboard() {
   useEffect(() => {
     const dialog = dialogRef.current
     if (!dialog) return
-    if (isCreateListingModalOpen && !dialog.open) {
+    if (isCreateListingModalOpen && isLandlordVerified && !dialog.open) {
       dialog.showModal()
-    } else if (!isCreateListingModalOpen && dialog.open) {
+    } else if ((!isCreateListingModalOpen || !isLandlordVerified) && dialog.open) {
       dialog.close()
     }
-  }, [isCreateListingModalOpen])
+  }, [isCreateListingModalOpen, isLandlordVerified])
 
   // Fallback for dialog[closedby="any"] light-dismiss in browsers without native closedBy support
   useEffect(() => {
@@ -110,6 +112,14 @@ export function LandlordDashboard() {
     }
   }, [])
 
+  const scrollToOwnershipVerification = () => {
+    if (landlordTab !== 'My Listings' && landlordTab !== 'Verify Ownership') {
+      setLandlordTab('Verify Ownership')
+      return
+    }
+    ownershipSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  }
+
   const handleSimulateKadasterVerification = async () => {
     if (verifyPhase === 'processing') return
     if (!kadasterFile) setKadasterFile(LANDLORD_KADASTER_SAMPLE.kadasterFileName)
@@ -141,6 +151,7 @@ export function LandlordDashboard() {
 
   const handleCreateListingSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    if (!isLandlordVerified) return
     const cleanTitle = title.trim() || 'Korreweg 84 Studio'
     const cleanCity = city.trim() || 'Groningen'
     const parsedRent = parseInt(rentNum, 10) || 720
@@ -176,7 +187,10 @@ export function LandlordDashboard() {
   }
 
   const renderOwnershipVerificationSection = () => (
-    <div className="bg-white rounded-3xl p-8 max-w-3xl shadow-[0_12px_40px_-16px_rgba(15,74,58,.3)] border-2 border-forest/10">
+    <div
+      ref={ownershipSectionRef}
+      className="bg-white rounded-3xl p-8 max-w-3xl shadow-[0_12px_40px_-16px_rgba(15,74,58,.3)] border-2 border-forest/10"
+    >
       <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
         <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-orange">
           <Lock className="w-4 h-4" />
@@ -340,13 +354,17 @@ export function LandlordDashboard() {
                 style={{
                   width: verifyPhase === 'done' ? '100%' : undefined,
                   animation:
-                    verifyPhase === 'processing' ? 'load 2.5s ease-out forwards' : undefined,
+                    verifyPhase === 'processing'
+                      ? 'load 10s cubic-bezier(0.15, 0.8, 0.3, 1) forwards'
+                      : undefined,
                 }}
               />
             </div>
           </div>
           <p className="text-sm leading-relaxed text-forest/80">
-            <b className="text-forest">Local AI verifying Kadaster &amp; Verhuurvergunning…</b>{' '}
+            <b className="text-forest">
+              Local AI verifying Kadaster &amp; Verhuurvergunning (up to 10s window)…
+            </b>{' '}
             Private mortgage deed figures and owner BSN stripped locally.
           </p>
         </div>
@@ -354,25 +372,38 @@ export function LandlordDashboard() {
 
       {verifyPhase === 'done' && landlordVerification && (
         <div className="mt-6 pt-6 border-t border-forest/10">
-          <div className="flex flex-wrap items-center gap-2.5 mb-4">
-            <span className="bg-lime text-forest-deep text-xs font-extrabold rounded-full px-4 py-2 flex items-center gap-1.5 shadow-sm">
-              <Shield className="w-4 h-4 text-forest-deep" />
-              Kadaster Verified Owner
-            </span>
-            <span className="bg-forest text-lime text-xs font-extrabold rounded-full px-4 py-2">
-              {landlordVerification.rental_permit}
-            </span>
-            <span className="bg-orange text-white text-xs font-extrabold rounded-full px-4 py-2">
-              Mortgage &amp; BSN Stripped: 100%
-            </span>
+          <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+            <div className="flex flex-wrap items-center gap-2.5">
+              <span className="bg-lime text-forest-deep text-xs font-extrabold rounded-full px-4 py-2 flex items-center gap-1.5 shadow-sm">
+                <Shield className="w-4 h-4 text-forest-deep" />
+                Kadaster Verified Owner
+              </span>
+              <span className="bg-forest text-lime text-xs font-extrabold rounded-full px-4 py-2">
+                {landlordVerification.rental_permit}
+              </span>
+              <span className="bg-orange text-white text-xs font-extrabold rounded-full px-4 py-2">
+                Mortgage &amp; BSN Stripped: 100%
+              </span>
+            </div>
+            <button
+              type="button"
+              onClick={() => setCreateListingModalOpen(true)}
+              className="bg-orange text-white text-xs font-extrabold rounded-full px-5 py-2.5 shadow-md hover:brightness-110 transition"
+            >
+              + Create Sublet / Room Listing &rarr;
+            </button>
           </div>
 
           <div className="bg-forest-deep text-cream rounded-2xl p-4 text-xs font-mono overflow-x-auto">
             <div className="flex items-center justify-between text-cream/60 mb-1.5 font-sans">
               <span className="font-bold text-lime">
-                Zero-Data Property Verification ({landlordVerification.source === 'ollama' ? 'Live Ollama llama3.1' : 'Local AI Fallback Engine'})
+                Zero-Data Property Verification (
+                {landlordVerification.source === 'ollama'
+                  ? 'Live Ollama llama3.1'
+                  : 'Local AI Fallback Engine'}
+                )
               </span>
-              <span>Badge Awarded to All Listings</span>
+              <span>Badge Awarded &amp; Listing Creation Unlocked</span>
             </div>
             <pre className="text-[11px] leading-relaxed text-lime/95">
               {JSON.stringify(
@@ -405,16 +436,58 @@ export function LandlordDashboard() {
       <main className="p-12 pb-28">
         {landlordTab === 'My Listings' && (
           <>
-            <div className="flex flex-wrap items-center justify-between gap-4 mb-10 max-w-3xl">
-              <h1 className="text-4xl font-extrabold">My Listings</h1>
+            <div className="flex flex-wrap items-center justify-between gap-4 mb-6 max-w-3xl">
+              <div className="flex items-center gap-3">
+                <h1 className="text-4xl font-extrabold">My Listings</h1>
+                {isLandlordVerified && (
+                  <span className="bg-lime text-forest-deep text-xs font-extrabold rounded-full px-3.5 py-1.5 flex items-center gap-1.5 shadow-sm">
+                    <Shield className="w-4 h-4 text-forest-deep" />
+                    Kadaster Verified Owner
+                  </span>
+                )}
+              </div>
               <button
                 type="button"
+                disabled={!isLandlordVerified}
                 onClick={() => setCreateListingModalOpen(true)}
-                className="bg-orange text-white font-bold rounded-full px-7 py-3 shadow-md hover:brightness-110 transition"
+                className={`font-bold rounded-full px-7 py-3 transition flex items-center gap-2 ${
+                  isLandlordVerified
+                    ? 'bg-orange text-white shadow-md hover:brightness-110'
+                    : 'bg-forest/15 text-forest/45 cursor-not-allowed'
+                }`}
               >
-                + Create Sublet / Listing
+                <Lock className="w-4 h-4" />
+                {isLandlordVerified
+                  ? '+ Create Sublet / Room Listing'
+                  : 'Create Sublet / Listing (Locked)'}
               </button>
             </div>
+
+            {!isLandlordVerified && (
+              <div className="mb-8 max-w-3xl rounded-2xl bg-orange/10 border-2 border-orange/40 p-5 flex flex-wrap items-center justify-between gap-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-orange text-white flex items-center justify-center shrink-0">
+                    <Lock className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <p className="font-bold text-sm text-forest">
+                      🔒 Verify Property Ownership (Kadaster &amp; Permit) Required Before Listing
+                    </p>
+                    <p className="text-xs text-forest/70 mt-0.5">
+                      To protect Dutch students from rental scams, new listings are locked until your Kadaster deed &amp; municipal permit are verified via Local AI below.
+                    </p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={scrollToOwnershipVerification}
+                  className="bg-orange text-white text-xs font-extrabold rounded-full px-5 py-2.5 shadow-sm hover:brightness-110 transition whitespace-nowrap"
+                >
+                  Verify Ownership Below &darr;
+                </button>
+              </div>
+            )}
+
             <div className="space-y-4 max-w-3xl mb-10">
               {landlordListings.map((listing) => (
                 <div
@@ -676,7 +749,7 @@ export function LandlordDashboard() {
               <p className="text-sm font-bold text-orange uppercase tracking-widest">
                 AI Matchmaker
               </p>
-              {landlordVerification ? (
+              {isLandlordVerified ? (
                 <span className="bg-lime text-forest-deep text-xs font-extrabold rounded-full px-3.5 py-1 flex items-center gap-1.5 shadow-sm">
                   <Shield className="w-3.5 h-3.5 text-forest-deep" />
                   Zernikepark 27 B · Kadaster Verified Owner
@@ -687,7 +760,7 @@ export function LandlordDashboard() {
                   onClick={() => setLandlordTab('Verify Ownership')}
                   className="text-xs font-bold text-orange underline hover:text-forest transition"
                 >
-                  Verify Property Ownership (Kadaster &amp; Permit) &rarr;
+                  🔒 Verify Property Ownership (Kadaster &amp; Permit) &rarr;
                 </button>
               )}
             </div>
@@ -794,7 +867,7 @@ export function LandlordDashboard() {
           <div className="flex items-center justify-between mb-6">
             <div>
               <p className="text-xs font-bold uppercase tracking-widest text-orange mb-1">
-                Zero-Data Verified Listing
+                Kadaster Verified Owner Listing
               </p>
               <h2 id="create-listing-title" className="text-2xl font-extrabold">
                 Create Sublet or Room Listing

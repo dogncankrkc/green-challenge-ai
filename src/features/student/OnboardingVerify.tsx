@@ -349,14 +349,17 @@ export function OnboardingVerify() {
                   className="h-full bg-lime rounded-full shadow-[0_0_10px_#dbff1f]"
                   style={{
                     width: phase === 'done' ? '100%' : undefined,
-                    animation: phase === 'processing' ? 'load 2.5s ease-out forwards' : undefined,
+                    animation:
+                      phase === 'processing'
+                        ? 'load 10s cubic-bezier(0.15, 0.8, 0.3, 1) forwards'
+                        : undefined,
                   }}
                 />
               </div>
             </div>
             <p className="text-sm leading-relaxed text-forest/80">
-              <b className="text-forest">Local AI extracting 3-document metrics…</b> Data Minimization active.
-              Full names, BSN, passport numbers, street addresses, and IBANs are stripped locally; no personal documents are stored on our servers.
+              <b className="text-forest">Local AI extracting 3-document metrics (up to 10s window)…</b>{' '}
+              Data Minimization active. Full names, BSN, passport numbers, street addresses, and IBANs are stripped locally; no personal documents are stored on our servers.
             </p>
           </div>
         )}

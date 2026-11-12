@@ -1,0 +1,15 @@
+KADASTER NEDERLAND — KADASSTRAAL UITTREKSEL (EIGENDOMSBEWIJS) & VERHUURVERGUNNING
+Object Address: Zernikepark 27 B, 9747 AN Groningen
+Municipality: Gemeente Groningen
+
+--- SENSITIVE OWNER DATA (TO BE STRIPPED BY LOCAL AI) ---
+Registered Legal Owner: Hendrik Bakker
+Owner BSN: 184920481
+Private IBAN: NL44 RABO 0192 8374 65
+Mortgage Bank & Deed Amount: Rabobank €340,000 / Notary Serial #NL-99481
+
+--- OWNERSHIP & MUNICIPAL PERMIT METRICS ---
+Ownership Status: Verified Legal Owner (Eigendomsbewijs)
+Wet goed verhuurderschap Compliance: Valid Municipal Permit (Wet goed verhuurderschap)
+Permitted Occupants: Up to 4 Students (Kamerverhuur / Studio)
+

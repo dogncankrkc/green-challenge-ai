@@ -11,7 +11,7 @@ export function Navbar() {
   ]
 
   return (
-    <header className="sticky top-0 z-30 bg-cream/85 backdrop-blur border-b border-forest/10">
+    <header className="sticky top-0 z-30 bg-cream/55 backdrop-blur-xl border-b border-forest/10">
       <div className="mx-auto max-w-7xl h-20 px-8 flex items-center justify-between">
         <button type="button" onClick={() => go('landing')} aria-label="safeHouse home">
           <Logo />

@@ -110,6 +110,7 @@ interface AppState {
   landlordTab: LandlordTab
   profile: StudentProfile
   verificationData: ExtractedStudentData | null
+  isLandlordVerified: boolean
   landlordVerification: LandlordOwnershipData | null
   rooms: RoomListing[]
   sentRoomIds: number[]
@@ -286,6 +287,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   landlordTab: 'AI Matches',
   profile: INITIAL_PROFILE,
   verificationData: null,
+  isLandlordVerified: false,
   landlordVerification: null,
   rooms: INITIAL_ROOMS,
   sentRoomIds: [],
@@ -322,7 +324,12 @@ export const useAppStore = create<AppState>((set, get) => ({
 
   setLandlordTab: (landlordTab) => set({ landlordTab }),
 
-  setCreateListingModalOpen: (isCreateListingModalOpen) => set({ isCreateListingModalOpen }),
+  setCreateListingModalOpen: (isCreateListingModalOpen) => {
+    if (isCreateListingModalOpen && !get().isLandlordVerified) {
+      return
+    }
+    set({ isCreateListingModalOpen })
+  },
 
   setProfile: (profile) => {
     const fullName = `${profile.first || 'Emma'} ${profile.last || 'van den Berg'}`.trim()
@@ -351,6 +358,7 @@ export const useAppStore = create<AppState>((set, get) => ({
 
   setLandlordVerification: (landlordVerification) => {
     set((state) => ({
+      isLandlordVerified: true,
       landlordVerification,
       landlordListings: state.landlordListings.map((listing) => ({
         ...listing,

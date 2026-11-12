@@ -20,7 +20,7 @@ interface SidebarProps {
 export function Sidebar({ label, nav, active, onSelect, note, children }: SidebarProps) {
   return (
     <div className="flex items-start min-h-[calc(100vh-5rem)]">
-      <aside className="w-64 sticky top-20 h-[calc(100vh-5rem)] shrink-0 overflow-y-auto overscroll-contain bg-forest text-cream p-6 flex flex-col justify-between">
+      <aside className="w-64 sticky top-20 h-[calc(100vh-5rem)] shrink-0 overflow-y-auto overscroll-contain bg-forest text-cream rounded-tr-3xl shadow-[8px_0_30px_-12px_rgba(10,52,41,0.35)] p-6 pt-7 flex flex-col justify-between">
         <div>
           <p className="text-xs uppercase tracking-widest text-cream/50 mb-4">{label}</p>
           <nav className="space-y-1.5">
