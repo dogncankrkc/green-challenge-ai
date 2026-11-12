@@ -1,7 +1,6 @@
 import { Chip, HouseMark, Pin, Shield } from './components/icons/Icons'
 import { Footer } from './components/layout/Footer'
 import { Navbar } from './components/layout/Navbar'
-import { ScreenSwitcher } from './components/layout/ScreenSwitcher'
 import { LoginView } from './features/auth/LoginView'
 import { LandlordDashboard } from './features/landlord/LandlordDashboard'
 import { HowAiProtectsView } from './features/privacy/HowAiProtectsView'
@@ -159,7 +158,6 @@ export default function App() {
       {screen === 'selection' && <GoalSelection />}
       {isStudentDashboardScreen && <StudentDashboard />}
       {screen === 'dashboard' && <LandlordDashboard />}
-      <ScreenSwitcher />
     </div>
   )
 }

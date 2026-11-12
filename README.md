@@ -115,5 +115,5 @@ ollama run llama3.1
 ```bash
 npm run dev
 ```
-Open **http://localhost:5173/** in your browser. Use the floating bottom **ScreenSwitcher** bar to jump rapidly between Student, Landlord, and Privacy Architecture views during your pitch.
+Open **http://localhost:5173/** in your browser. Use the top navigation bar and one-click Demo Student / Demo Landlord login flows to experience the full end-to-end matchmaking and verification journey.
 

@@ -125,11 +125,6 @@ export function LandlordDashboard() {
     const result = await verifyLandlordOwnershipWithLocalAI(rawPayload)
     setLandlordVerification(result)
     setVerifyPhase('done')
-
-    // Automatically route the verified landlord back to the "My Listings" tab
-    setTimeout(() => {
-      setLandlordTab('My Listings')
-    }, 900)
   }
 
   const handleLandlordDocUpload = async (
