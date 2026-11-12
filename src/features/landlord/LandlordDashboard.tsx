@@ -56,7 +56,6 @@ export function LandlordDashboard() {
 
   const kadasterInputRef = useRef<HTMLInputElement | null>(null)
   const permitInputRef = useRef<HTMLInputElement | null>(null)
-  const ownershipSectionRef = useRef<HTMLDivElement | null>(null)
 
   // Create Listing Modal Form State
   const [title, setTitle] = useState('')
@@ -112,14 +111,6 @@ export function LandlordDashboard() {
     }
   }, [])
 
-  const scrollToOwnershipVerification = () => {
-    if (landlordTab !== 'My Listings' && landlordTab !== 'Verify Ownership') {
-      setLandlordTab('Verify Ownership')
-      return
-    }
-    ownershipSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
-  }
-
   const handleSimulateKadasterVerification = async () => {
     if (verifyPhase === 'processing') return
     if (!kadasterFile) setKadasterFile(LANDLORD_KADASTER_SAMPLE.kadasterFileName)
@@ -134,6 +125,11 @@ export function LandlordDashboard() {
     const result = await verifyLandlordOwnershipWithLocalAI(rawPayload)
     setLandlordVerification(result)
     setVerifyPhase('done')
+
+    // Automatically route the verified landlord back to the "My Listings" tab
+    setTimeout(() => {
+      setLandlordTab('My Listings')
+    }, 900)
   }
 
   const handleLandlordDocUpload = async (
@@ -169,7 +165,7 @@ export function LandlordDashboard() {
 
   const nav: NavItem[] = [
     [Grid, 'AI Matches', 'AI Matches', landlordMatches.length],
-    [Home, 'My Listings', 'My Listings', landlordListings.length],
+    [Home, 'My Listings', 'My Listings', isLandlordVerified ? landlordListings.length : undefined],
     [Shield, 'Verify Ownership', 'Verify Ownership'],
     [Users, 'Applicants', 'Applicants'],
     [Msg, 'Messages', 'Messages', chatThreads.length],
@@ -187,10 +183,7 @@ export function LandlordDashboard() {
   }
 
   const renderOwnershipVerificationSection = () => (
-    <div
-      ref={ownershipSectionRef}
-      className="bg-white rounded-3xl p-8 max-w-3xl shadow-[0_12px_40px_-16px_rgba(15,74,58,.3)] border-2 border-forest/10"
-    >
+    <div className="bg-white rounded-3xl p-8 max-w-3xl shadow-[0_12px_40px_-16px_rgba(15,74,58,.3)] border-2 border-forest/10">
       <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
         <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-orange">
           <Lock className="w-4 h-4" />
@@ -387,10 +380,10 @@ export function LandlordDashboard() {
             </div>
             <button
               type="button"
-              onClick={() => setCreateListingModalOpen(true)}
+              onClick={() => setLandlordTab('My Listings')}
               className="bg-orange text-white text-xs font-extrabold rounded-full px-5 py-2.5 shadow-md hover:brightness-110 transition"
             >
-              + Create Sublet / Room Listing &rarr;
+              View Unlocked Listings &rarr;
             </button>
           </div>
 
@@ -436,7 +429,7 @@ export function LandlordDashboard() {
       <main className="p-12 pb-28">
         {landlordTab === 'My Listings' && (
           <>
-            <div className="flex flex-wrap items-center justify-between gap-4 mb-6 max-w-3xl">
+            <div className="flex flex-wrap items-center justify-between gap-4 mb-8 max-w-3xl">
               <div className="flex items-center gap-3">
                 <h1 className="text-4xl font-extrabold">My Listings</h1>
                 {isLandlordVerified && (
@@ -456,69 +449,67 @@ export function LandlordDashboard() {
                     : 'bg-forest/15 text-forest/45 cursor-not-allowed'
                 }`}
               >
-                <Lock className="w-4 h-4" />
+                {!isLandlordVerified && <Lock className="w-4 h-4" />}
                 {isLandlordVerified
-                  ? '+ Create Sublet / Room Listing'
+                  ? '+ Create Sublet / Listing'
                   : 'Create Sublet / Listing (Locked)'}
               </button>
             </div>
 
-            {!isLandlordVerified && (
-              <div className="mb-8 max-w-3xl rounded-2xl bg-orange/10 border-2 border-orange/40 p-5 flex flex-wrap items-center justify-between gap-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-orange text-white flex items-center justify-center shrink-0">
-                    <Lock className="w-5 h-5" />
+            {!isLandlordVerified ? (
+              <div className="max-w-3xl rounded-3xl bg-white border-2 border-orange/40 p-8 shadow-[0_12px_40px_-16px_rgba(15,74,58,.25)] flex flex-wrap items-center justify-between gap-6">
+                <div className="flex items-start gap-4 max-w-xl">
+                  <div className="w-12 h-12 rounded-2xl bg-orange text-white flex items-center justify-center shrink-0 mt-0.5">
+                    <Lock className="w-6 h-6" />
                   </div>
                   <div>
-                    <p className="font-bold text-sm text-forest">
+                    <h2 className="font-bold text-lg text-forest">
                       🔒 Verify Property Ownership (Kadaster &amp; Permit) Required Before Listing
-                    </p>
-                    <p className="text-xs text-forest/70 mt-0.5">
-                      To protect Dutch students from rental scams, new listings are locked until your Kadaster deed &amp; municipal permit are verified via Local AI below.
+                    </h2>
+                    <p className="text-sm text-forest/70 mt-1 leading-relaxed">
+                      To protect Dutch students from rental scams under the <i>Wet goed verhuurderschap</i>, your properties and new listing controls remain hidden until your Kadaster deed &amp; municipal permit are verified via Local AI.
                     </p>
                   </div>
                 </div>
                 <button
                   type="button"
-                  onClick={scrollToOwnershipVerification}
-                  className="bg-orange text-white text-xs font-extrabold rounded-full px-5 py-2.5 shadow-sm hover:brightness-110 transition whitespace-nowrap"
+                  onClick={() => setLandlordTab('Verify Ownership')}
+                  className="bg-orange text-white text-sm font-extrabold rounded-full px-6 py-3.5 shadow-md hover:brightness-110 transition whitespace-nowrap"
                 >
-                  Verify Ownership Below &darr;
+                  Go to Verification Page &rarr;
                 </button>
               </div>
-            )}
-
-            <div className="space-y-4 max-w-3xl mb-10">
-              {landlordListings.map((listing) => (
-                <div
-                  key={listing.id}
-                  className="bg-white rounded-3xl p-6 shadow-[0_12px_40px_-16px_rgba(15,74,58,.3)] flex items-center gap-5"
-                >
-                  <div className="w-16 h-16 rounded-2xl bg-forest flex items-center justify-center shrink-0">
-                    <HouseMark className="w-9 h-9" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <h3 className="font-bold text-lg truncate">{listing.title}</h3>
-                      {listing.kadasterVerified && (
-                        <span className="bg-lime text-forest-deep text-xs font-extrabold rounded-full px-3 py-1 flex items-center gap-1 shadow-sm">
-                          <Shield className="w-3.5 h-3.5 text-forest-deep" />
-                          Kadaster Verified Owner
-                        </span>
-                      )}
+            ) : (
+              <div className="space-y-4 max-w-3xl">
+                {landlordListings.map((listing) => (
+                  <div
+                    key={listing.id}
+                    className="bg-white rounded-3xl p-6 shadow-[0_12px_40px_-16px_rgba(15,74,58,.3)] flex items-center gap-5"
+                  >
+                    <div className="w-16 h-16 rounded-2xl bg-forest flex items-center justify-center shrink-0">
+                      <HouseMark className="w-9 h-9" />
                     </div>
-                    <p className="text-sm text-forest/60 mt-0.5">
-                      {listing.city} · {listing.rent} · {listing.matchesCount} AI matches · Fit: {listing.lifestyleFit}
-                    </p>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <h3 className="font-bold text-lg truncate">{listing.title}</h3>
+                        {listing.kadasterVerified && (
+                          <span className="bg-lime text-forest-deep text-xs font-extrabold rounded-full px-3 py-1 flex items-center gap-1 shadow-sm">
+                            <Shield className="w-3.5 h-3.5 text-forest-deep" />
+                            Kadaster Verified Owner
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-sm text-forest/60 mt-0.5">
+                        {listing.city} · {listing.rent} · {listing.matchesCount} AI matches · Fit: {listing.lifestyleFit}
+                      </p>
+                    </div>
+                    <span className="bg-lime text-forest-deep text-xs font-bold rounded-full px-3 py-1.5">
+                      {listing.status}
+                    </span>
                   </div>
-                  <span className="bg-lime text-forest-deep text-xs font-bold rounded-full px-3 py-1.5">
-                    {listing.status}
-                  </span>
-                </div>
-              ))}
-            </div>
-
-            {renderOwnershipVerificationSection()}
+                ))}
+              </div>
+            )}
           </>
         )}
 
