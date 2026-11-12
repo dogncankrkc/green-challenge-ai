@@ -51,13 +51,13 @@ export function SoloSearch() {
   }
 
   return (
-    <main className="mx-auto max-w-7xl px-8 py-16 pb-28">
+    <main className="w-full mx-auto max-w-7xl px-4 md:px-8 py-8 md:py-16 pb-28">
       <div className="flex flex-wrap items-end justify-between gap-4 mb-8">
         <div>
           <p className="text-sm font-bold text-orange uppercase tracking-widest mb-2">
             Solo search
           </p>
-          <h1 className="text-4xl font-extrabold">Your Top AI-Matched Single Rooms</h1>
+          <h1 className="text-3xl md:text-4xl font-extrabold">Your Top AI-Matched Single Rooms</h1>
         </div>
 
         <div className="flex items-center gap-3">
@@ -104,7 +104,7 @@ export function SoloSearch() {
         </span>
       </div>
 
-      <div className="grid grid-cols-3 gap-7">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
         {rooms.map((r) => {
           const isSent = sentRoomIds.includes(r.id)
           return (

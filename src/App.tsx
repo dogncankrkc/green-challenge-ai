@@ -35,39 +35,39 @@ function LandingView() {
           </g>
         </svg>
         <div className="absolute -right-32 -top-24 w-[560px] h-[560px] rounded-full bg-lime/40 blur-3xl" />
-        <div className="relative mx-auto max-w-7xl px-8 py-28 grid grid-cols-12 gap-10 items-center">
-          <div className="col-span-7">
-            <p className="text-orange font-extrabold uppercase tracking-[0.22em] text-sm mb-6">
+        <div className="relative mx-auto max-w-7xl px-4 md:px-8 py-14 md:py-28 flex flex-col lg:grid lg:grid-cols-12 gap-10 items-center">
+          <div className="w-full lg:col-span-7">
+            <p className="text-orange font-extrabold uppercase tracking-[0.22em] text-xs sm:text-sm mb-4 md:mb-6">
               Real rooms. Real people.
             </p>
-            <h1 className="text-[64px] leading-[1.04] font-extrabold max-w-2xl">
+            <h1 className="text-4xl sm:text-5xl lg:text-[64px] leading-[1.06] lg:leading-[1.04] font-extrabold max-w-2xl">
               Student housing in the Netherlands,{' '}
               <span className="bg-lime px-2 -mx-2 rounded-lg [box-decoration-break:clone]">
                 made safe, simple and social.
               </span>
             </h1>
-            <p className="mt-7 text-lg text-forest/75 max-w-xl leading-relaxed">
+            <p className="mt-5 md:mt-7 text-base md:text-lg text-forest/75 max-w-xl leading-relaxed">
               Local AI matches you with verified rooms and roommates, without your documents ever leaving your device.
             </p>
-            <div className="mt-10 flex gap-4">
+            <div className="mt-8 md:mt-10 flex flex-col sm:flex-row gap-4">
               <button
                 type="button"
                 onClick={() => loginAs('student', 'profile')}
-                className="bg-lime text-forest-deep font-bold text-lg rounded-full px-9 py-4 shadow-[0_10px_24px_-8px_rgba(150,180,0,.8)] hover:-translate-y-0.5 transition"
+                className="w-full sm:w-auto bg-lime text-forest-deep font-bold text-base md:text-lg rounded-full px-9 py-4 shadow-[0_10px_24px_-8px_rgba(150,180,0,.8)] hover:-translate-y-0.5 transition"
               >
-                I'm looking for a room
+                I&apos;m looking for a room
               </button>
               <button
                 type="button"
                 onClick={() => loginAs('landlord', 'dashboard')}
-                className="border-2 border-forest text-forest font-bold text-lg rounded-full px-9 py-4 hover:bg-forest hover:text-cream transition"
+                className="w-full sm:w-auto border-2 border-forest text-forest font-bold text-base md:text-lg rounded-full px-9 py-4 hover:bg-forest hover:text-cream transition"
               >
-                I'm a Landlord
+                I&apos;m a Landlord
               </button>
             </div>
           </div>
-          <div className="col-span-5 relative h-[440px]">
-            <div className="absolute inset-0 m-auto w-[300px] h-[420px] bg-forest rounded-[36px] shadow-2xl rotate-3 p-5">
+          <div className="w-full lg:col-span-5 relative h-[380px] sm:h-[440px]">
+            <div className="absolute inset-0 m-auto w-[270px] sm:w-[300px] h-[380px] sm:h-[420px] bg-forest rounded-[36px] shadow-2xl rotate-3 p-5">
               <div className="bg-cream rounded-2xl h-full p-4 flex flex-col gap-3">
                 <div className="text-xs font-semibold bg-white rounded-full px-3 py-2 shadow-sm text-forest/60">
                   Rooms in the Netherlands
@@ -89,7 +89,7 @@ function LandingView() {
               onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') go('ai-info')
               }}
-              className="cursor-pointer absolute -left-2 top-10 bg-white rounded-2xl shadow-xl px-4 py-3 flex items-center gap-3 -rotate-3 hover:scale-105 transition"
+              className="cursor-pointer absolute left-2 sm:-left-2 top-6 sm:top-10 bg-white rounded-2xl shadow-xl px-4 py-3 flex items-center gap-3 -rotate-3 hover:scale-105 transition"
             >
               <Shield className="w-6 h-6 text-orange" />
               <span className="text-sm font-bold">Verified listing</span>
@@ -98,8 +98,8 @@ function LandingView() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-8 pb-32 pt-8">
-        <div className="grid grid-cols-3 gap-8">
+      <section className="mx-auto max-w-7xl px-4 md:px-8 pb-24 md:pb-32 pt-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
           {[
             [
               Shield,
@@ -121,7 +121,7 @@ function LandingView() {
             return (
               <div
                 key={i}
-                className="bg-white rounded-3xl p-9 shadow-[0_12px_40px_-16px_rgba(15,74,58,.25)] hover:-translate-y-1 transition"
+                className="bg-white rounded-3xl p-7 md:p-9 shadow-[0_12px_40px_-16px_rgba(15,74,58,.25)] hover:-translate-y-1 transition"
               >
                 <div className="w-14 h-14 rounded-2xl bg-forest flex items-center justify-center mb-6">
                   <C className="w-7 h-7 text-lime" />
@@ -163,4 +163,3 @@ export default function App() {
     </div>
   )
 }
-

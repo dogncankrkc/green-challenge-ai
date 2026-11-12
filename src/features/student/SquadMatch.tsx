@@ -27,9 +27,11 @@ export function SquadMatch() {
   ]
 
   return (
-    <main className="mx-auto max-w-6xl px-8 py-16 pb-28 text-center">
+    <main className="w-full mx-auto max-w-6xl px-4 md:px-8 py-8 md:py-16 pb-28 text-center">
       <p className="text-orange font-bold uppercase tracking-widest text-sm mb-3">Co-living</p>
-      <h1 className="text-5xl font-extrabold mb-10">Your AI Roommate Squad</h1>
+      <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-6 md:mb-10">
+        Your AI Roommate Squad
+      </h1>
 
       <div className="bg-white rounded-[32px] shadow-[0_20px_60px_-24px_rgba(15,74,58,.35)] p-6">
         <svg
@@ -104,11 +106,11 @@ export function SquadMatch() {
         </div>
       ) : (
         <>
-          <div className="mt-8 bg-forest text-cream rounded-3xl p-9 text-left flex gap-6 items-start shadow-xl">
+          <div className="mt-8 bg-forest text-cream rounded-3xl p-6 md:p-9 text-left flex flex-col sm:flex-row gap-4 md:gap-6 items-start shadow-xl">
             <div className="w-12 h-12 rounded-2xl bg-lime flex items-center justify-center shrink-0">
               <Sparkle className="w-6 h-6 text-forest-deep" />
             </div>
-            <p className="text-xl leading-relaxed">
+            <p className="text-base md:text-xl leading-relaxed">
               You match <b className="text-lime">{squadMatchScore}%</b> with this group based on your{' '}
               {squadReasoning}. Together, you have a combined AI-Verified budget of{' '}
               <b className="text-lime">€2,400/month</b>.
@@ -117,7 +119,7 @@ export function SquadMatch() {
           <button
             type="button"
             onClick={applyAsSquad}
-            className="mt-10 bg-lime text-forest-deep font-extrabold text-xl rounded-full px-14 py-5 shadow-[0_12px_28px_-8px_rgba(150,180,0,.9)] hover:-translate-y-0.5 transition"
+            className="w-full sm:w-auto mt-8 md:mt-10 bg-lime text-forest-deep font-extrabold text-lg md:text-xl rounded-full px-8 md:px-14 py-4 md:py-5 shadow-[0_12px_28px_-8px_rgba(150,180,0,.9)] hover:-translate-y-0.5 transition"
           >
             Apply for Housing as a Group
           </button>

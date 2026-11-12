@@ -17,8 +17,8 @@ import { SquadMatch } from './SquadMatch'
 
 function SectionContainer({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <main className="p-12 pb-28">
-      <h1 className="text-4xl font-extrabold mb-10">{title}</h1>
+    <main className="w-full px-4 py-8 md:p-12 pb-28">
+      <h1 className="text-3xl md:text-4xl font-extrabold mb-6 md:mb-10">{title}</h1>
       {children}
     </main>
   )
@@ -106,9 +106,9 @@ function StudentMessagesView() {
 
   return (
     <SectionContainer title="Messages">
-      <div className="max-w-4xl grid grid-cols-12 gap-6">
+      <div className="max-w-4xl grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Thread list */}
-        <div className="col-span-4 space-y-3">
+        <div className="lg:col-span-4 space-y-3">
           {chatThreads.map((t) => {
             const active = t.id === currentThread.id
             return (
@@ -140,7 +140,7 @@ function StudentMessagesView() {
         </div>
 
         {/* Active conversation */}
-        <div className="col-span-8 bg-white rounded-3xl p-7 shadow-[0_12px_40px_-16px_rgba(15,74,58,.3)] flex flex-col min-h-[440px]">
+        <div className="lg:col-span-8 bg-white rounded-3xl p-5 sm:p-7 shadow-[0_12px_40px_-16px_rgba(15,74,58,.3)] flex flex-col min-h-[440px]">
           <div className="pb-4 mb-4 border-b border-forest/10 flex items-center justify-between">
             <div>
               <h3 className="font-bold text-lg">{currentThread.landlordDisplayName}</h3>

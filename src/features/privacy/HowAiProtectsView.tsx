@@ -23,16 +23,16 @@ export function HowAiProtectsView() {
   ]
 
   return (
-    <main className="mx-auto max-w-6xl px-8 py-20 pb-28 text-center">
+    <main className="mx-auto max-w-6xl px-4 md:px-8 py-12 md:py-20 pb-28 text-center">
       <p className="text-orange font-bold uppercase tracking-widest text-sm mb-3">
         Zero-Data Architecture
       </p>
-      <h1 className="text-5xl font-extrabold mb-4">How AI Protects You</h1>
-      <p className="text-lg text-forest/70 max-w-2xl mx-auto mb-14">
+      <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4">How AI Protects You</h1>
+      <p className="text-base md:text-lg text-forest/70 max-w-2xl mx-auto mb-10 md:mb-14">
         Matchmaking without surveillance: your data stays yours at every step.
       </p>
 
-      <div className="grid grid-cols-3 gap-8 text-left">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 text-left">
         {items.map(([IconComponent, title, desc]) => (
           <div
             key={title}
@@ -48,7 +48,7 @@ export function HowAiProtectsView() {
       </div>
 
       {/* 3-Step Sanitizer Banner */}
-      <div className="mt-12 bg-forest text-cream rounded-3xl p-8 text-left grid grid-cols-3 gap-6 shadow-xl">
+      <div className="mt-10 md:mt-12 bg-forest text-cream rounded-3xl p-6 md:p-8 text-left grid grid-cols-1 md:grid-cols-3 gap-6 shadow-xl">
         <div className="flex items-start gap-3.5">
           <div className="w-9 h-9 rounded-xl bg-lime flex items-center justify-center shrink-0 mt-0.5">
             <Lock className="w-5 h-5 text-forest-deep" />
@@ -110,7 +110,7 @@ export function HowAiProtectsView() {
           <b className="text-forest">Pre-Launch Production Evaluation:</b> Before public launch across Dutch student cities, safeHouse will evaluate and transition to two enterprise zero-data architectures so end-users need zero local setup:
         </p>
 
-        <div className="grid grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="rounded-2xl bg-cream/70 border border-forest/15 p-6 flex gap-4 items-start">
             <div className="w-11 h-11 rounded-xl bg-forest text-lime flex items-center justify-center shrink-0 font-display font-extrabold text-sm">
               01

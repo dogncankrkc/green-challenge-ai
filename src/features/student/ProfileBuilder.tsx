@@ -48,11 +48,11 @@ export function ProfileFields({ profile, setProfile }: ProfileFieldsProps) {
 
   return (
     <div className="space-y-7">
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {inputs.map(([key, label, autoComplete]) => {
           const inputId = `profile-field-${String(key)}`
           return (
-            <div key={String(key)} className={key === 'uni' ? 'col-span-2' : ''}>
+            <div key={String(key)} className={key === 'uni' ? 'sm:col-span-2' : ''}>
               <label htmlFor={inputId} className="block font-bold text-sm mb-2">
                 {label}
               </label>
@@ -69,7 +69,7 @@ export function ProfileFields({ profile, setProfile }: ProfileFieldsProps) {
             </div>
           )
         })}
-        <div className="col-span-2 flex items-center gap-3 rounded-2xl bg-lime/40 border border-lime px-5 py-4 text-sm font-semibold">
+        <div className="sm:col-span-2 flex items-center gap-3 rounded-2xl bg-lime/40 border border-lime px-5 py-4 text-sm font-semibold">
           <Lock className="w-5 h-5 shrink-0" />
           <span>
             <b>Hidden until mutual match approval:</b> Your name is hidden from landlords until you both approve a match.
@@ -121,16 +121,16 @@ export function ProfileBuilder() {
   }
 
   return (
-    <main className="mx-auto max-w-3xl px-8 py-16 pb-28">
+    <main className="w-full mx-auto max-w-3xl px-4 md:px-8 py-8 md:py-16 pb-28">
       <form
         onSubmit={handleSaveAndContinue}
         aria-labelledby="profile-builder-heading"
-        className="bg-white rounded-[32px] shadow-[0_24px_60px_-20px_rgba(15,74,58,.35)] p-12"
+        className="bg-white rounded-[32px] shadow-[0_24px_60px_-20px_rgba(15,74,58,.35)] p-6 sm:p-12"
       >
         <p className="text-xs font-bold uppercase tracking-widest text-orange mb-3">
           Your 6-Dimension Co-Living Matrix
         </p>
-        <h1 id="profile-builder-heading" className="text-4xl font-extrabold mb-3">
+        <h1 id="profile-builder-heading" className="text-3xl sm:text-4xl font-extrabold mb-3">
           Tell us about your lifestyle
         </h1>
         <p className="text-sm text-forest/70 mb-8">

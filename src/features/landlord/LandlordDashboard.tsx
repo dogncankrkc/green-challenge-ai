@@ -203,7 +203,7 @@ export function LandlordDashboard() {
       </p>
 
       {/* Two Dutch Standard Proof Upload Slots */}
-      <div className="grid grid-cols-2 gap-4 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
         <div>
           <input
             ref={kadasterInputRef}
@@ -327,7 +327,7 @@ export function LandlordDashboard() {
           type="button"
           disabled={verifyPhase === 'processing'}
           onClick={() => void handleSimulateKadasterVerification()}
-          className="bg-lime text-forest-deep font-extrabold text-sm rounded-full px-7 py-3.5 shadow-md hover:-translate-y-0.5 transition disabled:opacity-50"
+          className="w-full md:w-auto bg-lime text-forest-deep font-extrabold text-sm rounded-full px-7 py-3.5 shadow-md hover:-translate-y-0.5 transition disabled:opacity-50"
         >
           {verifyPhase === 'processing'
             ? 'Local AI Verifying Kadaster & Permit…'
@@ -426,7 +426,7 @@ export function LandlordDashboard() {
       onSelect={(k) => setLandlordTab(k as LandlordTab)}
       note="Applicant identities stay hidden until you approve a match."
     >
-      <main className="p-12 pb-28">
+      <main className="w-full px-4 py-8 md:p-12 pb-28">
         {landlordTab === 'My Listings' && (
           <>
             <div className="flex flex-wrap items-center justify-between gap-4 mb-8 max-w-3xl">
@@ -586,8 +586,8 @@ export function LandlordDashboard() {
                 </button>
               </div>
             ) : (
-              <div className="max-w-4xl grid grid-cols-12 gap-6">
-                <div className="col-span-4 space-y-3">
+              <div className="max-w-4xl grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <div className="lg:col-span-4 space-y-3">
                   {chatThreads.map((t) => {
                     const active = t.id === currentThread.id
                     return (
@@ -622,7 +622,7 @@ export function LandlordDashboard() {
                   })}
                 </div>
 
-                <div className="col-span-8 bg-white rounded-3xl p-7 shadow-[0_12px_40px_-16px_rgba(15,74,58,.3)] flex flex-col min-h-[440px]">
+                <div className="lg:col-span-8 bg-white rounded-3xl p-5 sm:p-7 shadow-[0_12px_40px_-16px_rgba(15,74,58,.3)] flex flex-col min-h-[440px]">
                   <div className="pb-4 mb-4 border-b border-forest/10 flex items-center justify-between">
                     <div>
                       <h3 className="font-bold text-lg">{currentThread.studentDisplayName}</h3>
@@ -755,10 +755,10 @@ export function LandlordDashboard() {
                 </button>
               )}
             </div>
-            <h1 className="text-4xl font-extrabold mb-10 max-w-3xl">
+            <h1 className="text-3xl md:text-4xl font-extrabold mb-6 md:mb-10 max-w-3xl">
               Your Top {landlordMatches.length} AI Matches for Zernikepark 27 B
             </h1>
-            <div className="grid grid-cols-3 gap-7">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
               {landlordMatches.map((c) => {
                 const ok = c.approved
                 return (

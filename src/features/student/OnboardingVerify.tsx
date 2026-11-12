@@ -192,8 +192,8 @@ export function OnboardingVerify() {
   const currentResult = verificationData
 
   return (
-    <main className="min-h-[calc(100vh-5rem)] bg-[#ebe7dc] flex items-center justify-center px-8 py-16 pb-28">
-      <div className="bg-white rounded-[32px] shadow-[0_24px_60px_-20px_rgba(15,74,58,.35)] w-full max-w-4xl p-12">
+    <main className="min-h-[calc(100vh-5rem)] bg-[#ebe7dc] flex items-center justify-center px-4 md:px-8 py-8 md:py-16 pb-28">
+      <div className="bg-white rounded-[32px] shadow-[0_24px_60px_-20px_rgba(15,74,58,.35)] w-full max-w-4xl p-6 sm:p-12">
         <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
           <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-orange">
             <Lock className="w-4 h-4" />
@@ -205,7 +205,7 @@ export function OnboardingVerify() {
           </span>
         </div>
 
-        <h1 className="text-4xl font-extrabold mb-3">
+        <h1 className="text-3xl sm:text-4xl font-extrabold mb-3">
           Verify Your Student Status, Budget &amp; Reference.
         </h1>
         <p className="text-sm text-forest/70 mb-8 max-w-2xl">
@@ -213,7 +213,7 @@ export function OnboardingVerify() {
         </p>
 
         {/* 3-Document Verification Grid */}
-        <div className="grid grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {SLOT_METADATA.map(({ key, step, title, subtitle }) => {
             const slotData = slots[key]
             const isOver = dragOverSlot === key
@@ -309,7 +309,7 @@ export function OnboardingVerify() {
             type="button"
             disabled={phase === 'processing'}
             onClick={() => void handleVerifyAllButton()}
-            className="bg-forest text-cream hover:bg-forest-deep font-bold text-sm rounded-full px-7 py-3.5 shadow-md transition disabled:opacity-50"
+            className="w-full md:w-auto bg-forest text-cream hover:bg-forest-deep font-bold text-sm rounded-full px-7 py-3.5 shadow-md transition disabled:opacity-50"
           >
             {phase === 'processing'
               ? 'Running Local AI on All 3 Documents…'

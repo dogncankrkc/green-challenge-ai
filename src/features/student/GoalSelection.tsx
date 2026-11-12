@@ -30,14 +30,14 @@ export function GoalSelection() {
   ]
 
   return (
-    <main className="mx-auto max-w-6xl px-8 py-20 pb-28 text-center">
+    <main className="mx-auto max-w-6xl px-4 md:px-8 py-12 md:py-20 pb-28 text-center">
       <p className="text-orange font-bold uppercase tracking-widest text-sm mb-3">
         Step 2 of 2 · Matchmaking
       </p>
-      <h1 className="text-5xl font-extrabold mb-14 max-w-3xl mx-auto leading-tight">
+      <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-8 md:mb-14 max-w-3xl mx-auto leading-tight">
         What is your housing goal for this semester?
       </h1>
-      <div className="grid grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
         {opts.map(([IconComponent, title, desc, handleSelect]) => (
           <button
             key={title}
